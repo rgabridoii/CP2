@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZeroPoint Security - Capstone One-Pager</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f5f5f0; color: #1a1a1a; padding: 40px 20px; }
+  .page {
+    max-width: 800px; margin: 0 auto; background: #fff;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .header {
+    background: linear-gradient(135deg, #1C2857 0%, #2a3a7c 100%);
+    padding: 36px 40px 28px; color: #fff;
+  }
+  .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .header .subtitle { font-size: 15px; opacity: 0.8; font-weight: 400; }
+  .header .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .header .meta span {
+    background: rgba(255,255,255,0.15); border-radius: 6px;
+    padding: 5px 14px; font-size: 12px; font-weight: 500;
+  }
+  .body { padding: 28px 40px 36px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card {
+    background: #fafaf7; border: 1px solid #e8e8e3;
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .card.full { grid-column: 1 / -1; }
+  .card-title {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #1C2857; margin-bottom: 8px;
+  }
+  .card p { font-size: 13.5px; line-height: 1.65; color: #333; }
+  .obj-list { list-style: none; padding: 0; }
+  .obj-list li {
+    font-size: 13px; padding: 3px 0; display: flex; align-items: baseline; gap: 8px;
+    color: #333; line-height: 1.5;
+  }
+  .obj-list li::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+  }
+  .dev li::before { background: #2a6cb8; }
+  .res li::before { background: #1d9e75; }
+  .tech-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-tag {
+    background: #fff; border: 1px solid #ddd; border-radius: 6px;
+    padding: 4px 10px; font-size: 11.5px; color: #555; font-family: 'SF Mono', 'Consolas', monospace;
+  }
+  .highlight {
+    background: #e6f1fb; border-radius: 8px; padding: 10px 14px; margin-top: 10px;
+  }
+  .highlight p { color: #185fa5; font-size: 12.5px; }
+  .members { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .member { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%; background: #e6f1fb;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #185fa5;
+  }
+  .footer {
+    text-align: center; font-size: 11px; color: #999;
+    padding-top: 16px; border-top: 1px solid #eee; margin-top: 8px;
+  }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .page { box-shadow: none; border-radius: 0; }
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .header, .body { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>&#128737; ZeroPoint Security</h1>
+    <p class="subtitle">A vulnerability management platform with AI-assisted remediation guidance</p>
+    <div class="meta">
+      <span>Mapúa Malayan Digital College</span>
+      <span>Group 9 · Section S3102</span>
+      <span>MO-IT200D1 Capstone 1</span>
+      <span>Adviser: Rhimshie Jay Aquino</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="grid">
+
+      <div class="card full">
+        <div class="card-title">What is it?</div>
+        <p>ZeroPoint Security is a fully containerized, self-hosted vulnerability management platform that scans network assets using <strong>Greenbone/OpenVAS</strong>, then uses a local AI model (<strong>Llama 3.2 via Ollama</strong>) to prioritize findings and generate actionable remediation guidance through retrieval-augmented generation (RAG). The system recommends and tracks remediation actions. It does not automatically apply patches or configuration changes.</p>
+      </div>
+
+      <div class="card full">
+        <div class="card-title">Who is it for?</div>
+        <p>Philippine SMEs, specifically local computer and IT-service shops that lack the budget for enterprise vulnerability management solutions or a full-time security specialist. The platform gives them an accessible, free, and self-hosted way to discover and address security vulnerabilities in their infrastructure.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Development objectives (5)</div>
+        <ul class="obj-list dev">
+          <li>Web dashboard with role-based access control</li>
+          <li>OpenVAS integration for authenticated &amp; unauthenticated scanning</li>
+          <li>Centralized vulnerability finding aggregation</li>
+          <li>AI-assisted remediation guidance via RAG</li>
+          <li>Fully Dockerized one-command deployment</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Research objectives (3)</div>
+        <ul class="obj-list res">
+          <li>Measure detection accuracy using ground-truth evaluation (precision, recall, F1)</li>
+          <li>Evaluate AI-generated guidance for correctness and safety via expert review</li>
+          <li>Assess platform usability through formative testing (SUS questionnaire)</li>
+        </ul>
+      </div>
+
+      <div class="card full">
+        <div class="card-title">Technology stack</div>
+        <div class="tech-grid">
+          <span class="tech-tag">FastAPI 0.115</span>
+          <span class="tech-tag">Python 3.12</span>
+          <span class="tech-tag">React 18</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Greenbone CE / OpenVAS</span>
+          <span class="tech-tag">python-gvm 27.2</span>
+          <span class="tech-tag">Ollama + Llama 3.2:3b</span>
+          <span class="tech-tag">Docker Compose (~14 services)</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Redis</span>
+        </div>
+        <div class="highlight">
+          <p>&#128274; All AI inference runs fully offline. No data leaves the host machine. Deployable on both Linux and Windows (Docker Desktop + WSL2). Compliant with RA 10173 (Data Privacy Act) data residency requirements.</p>
+        </div>
+      </div>
+
+      <div class="card full">
+        <div class="card-title">Current status</div>
+        <p>Working prototype (v0.4.1). Oral defense completed with the panel issuing 15 recommendations requiring major revision. All 15 points have been addressed in the revised manuscript. Reference audit and figure finalization are in progress for final resubmission.</p>
+      </div>
+
+      <div class="card full">
+        <div class="card-title">Team members</div>
+        <div class="members">
+          <div class="member"><div class="avatar">AP</div>Alexandra Paculan</div>
+          <div class="member"><div class="avatar">JC</div>Juan Carlos Castillo</div>
+          <div class="member"><div class="avatar">KM</div>Kevin Angelo Metro</div>
+          <div class="member"><div class="avatar">RG</div>Roberto Gabrido</div>
+          <div class="member"><div class="avatar">RC</div>Ronel E. Cachero</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Prepared for adviser orientation | Group 9, August 2026
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
