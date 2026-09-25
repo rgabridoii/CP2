@@ -6,10 +6,10 @@ import { api } from '../lib/api';
 
 /* Template labels */
 const TEMPLATE_LABELS = {
-  'ping-discovery': 'Ping-Only Discovery',
-  'host-discovery': 'Host Discovery',
-  'basic-network': 'Basic Network Scan',
-  'advanced-scan': 'Advanced Scan',
+  'ping-discovery': 'Find Active Devices',
+  'host-discovery': 'Find Devices & Services',
+  'basic-network': 'Recommended Security Scan',
+  'advanced-scan': 'Deep Security Scan',
 };
 
 /* Extract template from comment tag [template:xxx] */
@@ -117,10 +117,10 @@ export default function Scans() {
       <div className="scan-main">
         {/* Top bar */}
         <div className="scan-topbar">
-          <h2>My Scans</h2>
+          <div><h2>Scan Devices</h2><div className="page-subtitle">Run a new security check or open a previous scan to review its progress and findings.</div></div>
           <div className="scan-topbar-actions">
             <button className="btn-nessus" onClick={() => navigate('/scans/new')}>
-              <Plus size={14} /> New Scan
+              <Plus size={14} /> Start New Scan
             </button>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function Scans() {
               color: 'var(--text-muted)', pointerEvents: 'none',
             }} />
             <input
-              placeholder="Search Scans"
+              placeholder="Search previous scans"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{ paddingLeft: 30 }}
@@ -148,7 +148,7 @@ export default function Scans() {
         ) : filtered.length === 0 ? (
           <div className="empty">
             <ScanLine size={32} />
-            <div>{search ? 'No scans match your search.' : 'No scans yet. Click + New Scan to get started.'}</div>
+            <div>{search ? 'No scans match your search.' : 'No scans yet. Click Start New Scan to begin with the recommended security scan.'}</div>
           </div>
         ) : (
           <table className="scan-table">
