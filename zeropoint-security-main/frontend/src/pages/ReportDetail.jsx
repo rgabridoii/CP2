@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Download, FileText, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Sparkles, Loader2, CircleHelp } from 'lucide-react';
 import { api } from '../lib/api';
 
 function severityColor(score) {
@@ -69,16 +69,16 @@ function AiRemediation({ finding }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontSize: 13 }}>
             <Sparkles size={14} style={{ verticalAlign: 'middle', color: 'var(--accent)', marginRight: 6 }} />
-            <strong>AI Remediation Guidance</strong>
+            <strong>Suggested Remediation Guidance</strong>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>
-              Get a plain-language recommendation for this finding.
+              Get a plain-language starting point for addressing this finding. Review the guidance before making system changes.
               {loading && elapsed > 5 && (
                 <span> First call loads the model (~30-60s). Subsequent calls are fast.</span>
               )}
             </div>
           </div>
           <button className="btn" onClick={generate} disabled={loading}>
-            {loading ? <><Loader2 size={14} /> Generating ({elapsed}s)...</> : 'Generate'}
+            {loading ? <><Loader2 size={14} /> Generating ({elapsed}s)...</> : 'Explain how to fix'}
           </button>
         </div>
         {error && (
@@ -95,7 +95,7 @@ function AiRemediation({ finding }) {
       borderRadius: 4, border: '1px solid rgba(0,212,170,0.3)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
         <Sparkles size={14} style={{ color: 'var(--accent)' }} />
-        <strong>AI Remediation Guidance</strong>
+        <strong>Suggested Remediation Guidance</strong>
         <span className="badge badge-new" style={{ marginLeft: 'auto' }}>
           {result.severity_band}
         </span>
@@ -185,6 +185,13 @@ export default function ReportDetail() {
         </div>
       </div>
 
+      <div className="info-callout" style={{ marginBottom: 18 }}>
+        <CircleHelp size={18} />
+        <div>
+          <strong>How to read this report:</strong> Start with Critical and High findings. Click a finding to see the affected device, port, CVE references, description, and suggested remediation. Scanner findings should be validated before changes are made.
+        </div>
+      </div>
+
       <div className="severity-grid" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
         <FilterCard label="Critical" count={counts.critical} cls="sev-critical" active={filter === 'critical'} onClick={() => setFilter(filter === 'critical' ? 'all' : 'critical')} />
         <FilterCard label="High" count={counts.high} cls="sev-high" active={filter === 'high'} onClick={() => setFilter(filter === 'high' ? 'all' : 'high')} />
@@ -203,11 +210,11 @@ export default function ReportDetail() {
           <table className="table">
             <thead>
               <tr>
-                <th style={{ width: 90 }}>Severity</th>
-                <th>Vulnerability</th>
-                <th style={{ width: 140 }}>Host</th>
+                <th style={{ width: 110 }}>Severity score</th>
+                <th>What was found</th>
+                <th style={{ width: 140 }}>Affected device</th>
                 <th style={{ width: 100 }}>Port</th>
-                <th style={{ width: 140 }}>CVE</th>
+                <th style={{ width: 140 }} title="Common Vulnerabilities and Exposures identifier">CVE ID</th>
               </tr>
             </thead>
             <tbody>
@@ -245,7 +252,7 @@ export default function ReportDetail() {
             </div>
             {selected.cves && selected.cves.length > 0 && (
               <div style={{ marginBottom: 16 }}>
-                <div className="card-title">CVEs</div>
+                <div className="card-title">CVE references <span title="CVE is a standard identifier for a publicly known vulnerability" style={{ textTransform: 'none', letterSpacing: 0 }}>ⓘ</span></div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {selected.cves.map((c) => (
                     <a key={c} href={`https://nvd.nist.gov/vuln/detail/${c}`} target="_blank" rel="noreferrer" className="badge badge-new">{c}</a>
@@ -253,7 +260,7 @@ export default function ReportDetail() {
                 </div>
               </div>
             )}
-            <div className="card-title">Description</div>
+            <div className="card-title">What this finding means</div>
             <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', fontSize: 13, color: 'var(--text)', margin: 0, lineHeight: 1.6 }}>
               {selected.description || '(no description)'}
             </pre>

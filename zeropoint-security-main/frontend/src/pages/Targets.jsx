@@ -92,7 +92,7 @@ export default function Targets() {
   return (
     <div>
       <div className="page-header">
-        <h2>Targets</h2>
+        <div><h2>Devices to Scan</h2><p className="page-subtitle">Add computers, servers, hostnames, or authorized IP ranges that you want ZeroPoint to assess.</p></div>
         <div className="flex" style={{ gap: 8 }}>
           <input
             type="file"
@@ -105,7 +105,7 @@ export default function Targets() {
             <Upload size={14} /> {importing ? 'Importing...' : 'Import CSV'}
           </button>
           <button className="btn" onClick={openModal}>
-            <Plus size={14} /> New target
+            <Plus size={14} /> Add device / target
           </button>
         </div>
       </div>
@@ -141,14 +141,14 @@ export default function Targets() {
         {targets.length === 0 ? (
           <div className="empty">
             <TargetIcon size={32} />
-            <div>No targets yet. Add one to start scanning.</div>
+            <div>No devices added yet. Add a device or authorized IP range to start scanning.</div>
           </div>
         ) : (
           <table className="table">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Hosts</th>
+                <th>IP / Host</th>
                 <th>Comment</th>
                 <th style={{ width: 80 }}></th>
               </tr>
@@ -172,19 +172,21 @@ export default function Targets() {
       </div>
 
       {open && (
-        <Modal title="New target" onClose={() => setOpen(false)}>
+        <Modal title="Add device / target" onClose={() => setOpen(false)}>
           <form onSubmit={submit}>
             <div className="form-group">
-              <label>Name</label>
+              <label>Friendly name</label>
+              <div className="form-help">Use a name you will recognize later, such as “Front Desk PC” or “Test Server”.</div>
               <input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Production webservers"
+                placeholder="Front Desk PC"
                 required
               />
             </div>
             <div className="form-group">
-              <label>Hosts (comma-separated IPs, hostnames, or CIDRs)</label>
+              <label>IP address, hostname, or IP range</label>
+              <div className="form-help">Examples: 192.168.1.25, server01.local, or 192.168.1.0/24. Only enter systems you are authorized to scan.</div>
               <input
                 value={form.hosts}
                 onChange={(e) => setForm({ ...form, hosts: e.target.value })}
@@ -193,12 +195,13 @@ export default function Targets() {
               />
             </div>
             <div className="form-group">
-              <label>Port list (which ports to scan)</label>
+              <label>Ports to check</label>
+              <div className="form-help">If you are unsure, keep the default. Advanced users can choose a custom port list.</div>
               <select
                 value={form.port_list_id}
                 onChange={(e) => setForm({ ...form, port_list_id: e.target.value })}
               >
-                <option value="">Auto-pick default (All IANA TCP)</option>
+                <option value="">Recommended default (common TCP ports)</option>
                 {portLists.map((pl) => (
                   <option key={pl.id} value={pl.id}>
                     {pl.name}  ({pl.total_count ?? '?'} ports)
@@ -222,7 +225,7 @@ export default function Targets() {
             <div className="modal-actions">
               <button type="button" className="btn-secondary btn" onClick={() => setOpen(false)}>Cancel</button>
               <button type="submit" className="btn" disabled={submitting}>
-                {submitting ? 'Creating...' : 'Create'}
+                {submitting ? 'Adding...' : 'Add device'}
               </button>
             </div>
           </form>
